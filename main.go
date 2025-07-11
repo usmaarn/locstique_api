@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/cors"
 	"github.com/usmaarn/locstique_api/handlers"
@@ -32,5 +33,7 @@ func main() {
 	v1Router.Get("/health-check", handlers.HealthCheckHandler)
 
 	router.Mount("/v1", v1Router)
+
+	fmt.Println("App running on port 8080")
 	log.Fatal(http.ListenAndServe(":8080", router))
 }
