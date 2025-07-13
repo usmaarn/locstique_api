@@ -4,8 +4,9 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
-	"github.com/usmaarn/locstique_api/internal/database"
+	"github.com/go-playground/validator/v10"
 	"github.com/usmaarn/locstique_api/internal/dto"
+	"github.com/usmaarn/locstique_api/packages/helpers"
 	"github.com/usmaarn/locstique_api/packages/request"
 	"github.com/usmaarn/locstique_api/packages/response"
 	"net/http"
@@ -16,6 +17,12 @@ func (h *Handler) RegisterUserHandler(w http.ResponseWriter, r *http.Request) {
 
 	err := request.ParseBody(r, &requestDto)
 	if err != nil {
+		var err validator.ValidationErrors
+		if errors.As(err, &err) {
+			errMap := helpers.FormatValidationErrors(err)
+			response.Error(w, 400, errMap)
+			return
+		}
 		response.Error(w, 400, err)
 		return
 	}
