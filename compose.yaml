@@ -1,0 +1,11 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      - POSTGRES_USER=locstique_admin
+      - POSTGRES_PASSWORD=locstique_admin_pass
+      - POSTGRES_DB=locstique_db
+    ports:
+      - 5401:5432
+    volumes:
+      - ./db-data:/var/lib/postgresql/data
